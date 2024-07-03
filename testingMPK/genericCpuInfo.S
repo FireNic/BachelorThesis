@@ -3,6 +3,7 @@
 .m0: .string "CPUID: %x\n"
 .m1: .string "Largest basic function number implemented: %i\n"
 .m2: .string "Vendor ID: %s\n"
+.m3: .string "AdvancedFeatureResult eax07 ecx0 ecxresult %x\n"
 
     .globl main
 
@@ -27,6 +28,14 @@ main:
     mov     7[rsp], r12d
     mov     11[rsp], ebp
 	call	printf
+
+    mov     eax, 0
+    mov     ecx, 0
+    cpuid
+    lea     rdi, .m3[rip]
+    mov     esi, eax
+    call    printf
+
 	add	    rsp, 16
 	pop	    r12
 	ret

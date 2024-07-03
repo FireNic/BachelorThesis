@@ -6,12 +6,12 @@
 #include <stdlib.h>
 #include <sys/mman.h>
 
-extern int testCPUID();
+extern unsigned int testCPUID(void);
 
 int main(void)
 {
     int extendedFeaturesECXRegister = testCPUID();
-    printf("testCPUID finished with %d\n", extendedFeaturesECXRegister);
+    printf("testCPUID finished with %u\n", extendedFeaturesECXRegister);
     int pkuMask =     0b00000000000000000000000000001000;
     int ospkuMask =   0b00000000000000000000000000010000;
 
@@ -29,10 +29,7 @@ int main(void)
         printf("pku feature is not enabled\n");
     }
 
-    unsigned int eax, ebc, ecx, edx;
-    eax = 0;
-    ecx = 0;
-    __get_cpuid(7, &eax, &ebc, &ecx, &edx);
-    printf("eax %d\nebc %d\necx %d\nedx %d\n", eax, ebc, ecx, edx);
+    printf("\n\n----------------\n\n");
+
     return 0;
 }

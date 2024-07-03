@@ -10,13 +10,40 @@
  */
 #include <stdio.h>
 #include <unistd.h>
+#include <string.h>
+
+extern unsigned int testCPUID(void);
 
 int
 main(void)
 {
   for (;;)
     {
-      puts("Hello My Own World!");
+      unsigned int extendedFeaturesECXRegister = testCPUID();
+      {
+        puts("------------------");
+        printf("testCPUID finished with %u\n", extendedFeaturesECXRegister);
+      }
+      int pkuMask =     0b00000000000000000000000000001000;
+      int ospkuMask =   0b00000000000000000000000000010000;
+
+      if((extendedFeaturesECXRegister & pkuMask) == 0b1000){
+          puts("pku feature exists");
+      }
+      else{
+          puts("pku feature does not exist");
+      }
+
+      if((extendedFeaturesECXRegister & ospkuMask) == 0b10000){
+          puts("pku feature is enabled");
+      }
+      else{
+          puts("pku feature is not enabled");
+      }
+
       sleep(1);
     }
+
 }
+
+
