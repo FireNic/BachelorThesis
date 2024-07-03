@@ -1,13 +1,18 @@
 # BachelorThesis
- My Own Documentation:
-	Own code is in one of those Folders and sample Makefile on this level. Makefile needs to be copied into the 	selected code folder (example 01)
-		TODO does this need extra config?
+
+For Remote At Uni
+  - run make qemu in wsl and copy paste the qemu command the makefile produces (right after choosing which lua entry to execute)
+  - for this to work put in the same location of the remote machine the 
+        obj/l4/<platform>/bin/<platform>_gen
+        aswell as the 
+        obj/fiasco/<platform>/fiasco
+        files
 
 General MakeFiles
-  - make clean removes all build files of that would be done by this makefile
+  - make clean removes (or maybe marks every file to be removed at next make) all build files of that would be done by this makefile
   - make compiles the files
 
-On WSL Self Config
+On WSL Do Config Self Config
  Done for basic Build:
   - fiasco kernel:
     - in src/fiasco do make B=../../obj/fiasco/builddir
@@ -28,9 +33,8 @@ On WSL Self Config
     - make uimage E=<buildImage> (build image is an entry in src/l4/conf/modules.list)
     - for starting qemu directly do make qemu E=<buildImage>
   
-Fast start
+On WSL Auto Config Fast start
   - root directory
-    - make clean -> for i have no idea tbh
     - make setup -> setups obj folder for specific platform
     - make -> compiles everything needed
     - make qemu -> runs everything on qemu
