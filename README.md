@@ -2,6 +2,7 @@
 
 For Remote At Uni
   - run make qemu in wsl and copy paste the qemu command the makefile produces (right after choosing which lua entry to execute)
+        adding -accel kvm -cpu host to the qemu command in neccessary for mpk to be available
   - for this to work put in the same location of the remote machine the 
         obj/l4/<platform>/bin/<platform>_gen
         aswell as the 
