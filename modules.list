@@ -2,3 +2,8 @@ entry ownHello
 roottask moe --init=rom/myownhello
 module l4re
 module myownhello
+
+entry readwritepkru
+roottask moe --init=rom/readwritepkru
+module l4re
+module readwritepkru
