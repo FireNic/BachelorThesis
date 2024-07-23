@@ -7,3 +7,10 @@ entry readwritepkru
 roottask moe --init=rom/readwritepkru
 module l4re
 module readwritepkru
+
+entry allocation_and_pkru
+roottask moe rom/allocation_and_pkru.cfg
+module l4re
+module ned
+module allocation_and_pkru.cfg
+module allocation_and_pkru
