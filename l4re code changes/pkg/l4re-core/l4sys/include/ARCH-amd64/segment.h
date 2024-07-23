@@ -175,7 +175,16 @@ fiasco_ldt_set(l4_cap_idx_t task, void *ldt, unsigned int num_desc,
   return l4_error_u(l4_ipc_call(task, utcb, l4_msgtag(L4_PROTO_TASK, 2 + num_desc * 2, 0, 0), L4_IPC_NEVER), utcb);
 }
 
-
+L4_INLINE long
+fiasco_pku_set(l4_cap_idx_t task, unsigned int pku_key, void *addr, l4_utcb_t *utcb)
+{
+  if (pku_key > 15)
+    return -L4_EINVAL;
+  l4_utcb_mr_u(utcb)->mr[0] = L4_TASK_PKU_SET;
+  l4_utcb_mr_u(utcb)->mr[1] = pku_key;
+  __builtin_memcpy(&l4_utcb_mr_u(utcb)->mr[2], &addr, sizeof(void*));
+  return l4_error_u(l4_ipc_call(task, utcb, l4_msgtag(L4_PROTO_TASK, 3, 0, 0), L4_IPC_NEVER), utcb);
+}
 
 L4_INLINE unsigned
 fiasco_gdt_get_entry_offset(l4_cap_idx_t thread, l4_utcb_t *utcb)
