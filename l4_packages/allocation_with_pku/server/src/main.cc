@@ -19,6 +19,7 @@
 #include <l4/re/util/cap_alloc>
 #include <l4/sys/err.h>
 #include <l4/sys/segment.h>
+#include <unistd.h>
 #include <cstdio>
 #include <cstring>
 
@@ -105,26 +106,24 @@ static int memoryAllocationLoop(unsigned int key_to_associate)
   if (allocate_mem(4 * L4_PAGESIZE, 0, &virt))
     return 1;
 
-  printf("Allocated memory.\n");
-
-  printf("Start Address in user %p\n", virt);
+  // printf("Allocated memory.\n");
   
   memset(virt, 0x12, 4 * L4_PAGESIZE); // TODO LAZY PAGE ALLOCATION RUINS EVERYTHING.
-  printf("Touched memory.\n");
+  // printf("Touched memory.\n");
   
   set_pku(virt, key_to_associate);
-  printf("Set PKU to %u.\n", key_to_associate);  
+  // printf("Set PKU to %u.\n", key_to_associate);  
 
   /* Do something with the memory */
   memset(virt, 0x14, 4 * L4_PAGESIZE);
-  printf("Touched memory.\n");
+  // printf("Touched memory.\n");
 
 
   /* Free memory */
   if (free_mem(virt))
     return 2;
 
-  printf("Freed and done. Bye. For now!\n");
+  // printf("Freed and done. Bye. For now!\n");
 
   return 0;
 }
@@ -134,27 +133,21 @@ int main(void)
   memoryAllocationLoop(0);
   unsigned int pkruvalue = 0b110011;
   writePKRU(~pkruvalue); //lock all keys except 0 and 2
-
-
-  puts("-----------------");
   puts("disabled everything except key 0");
-  puts("-----------------");
+  sleep(1);
+
 
   memoryAllocationLoop(0);
-
-  puts("-----------------");
   puts("key zero allocation done");
-  puts("-----------------");
+  sleep(1);
+
 
   memoryAllocationLoop(2);
-
-  puts("-----------------");
   puts("key 2 allocation done");
-  puts("-----------------");
+  sleep(1);
+
 
   memoryAllocationLoop(1); // should crash
-
-  puts("-----------------");
   puts("key 1 allocation done");
-  puts("-----------------");
+  sleep(1);
 }

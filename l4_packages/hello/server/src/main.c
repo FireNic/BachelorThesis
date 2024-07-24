@@ -17,30 +17,15 @@ extern unsigned int testCPUID(void);
 int
 main(void)
 {
-  for (;;)
+  for (int i = 0; i < 5; i++)
     {
       unsigned int extendedFeaturesECXRegister = testCPUID();
-      {
-        puts("------------------");
-        printf("testCPUID finished with %u\n", extendedFeaturesECXRegister);
-      }
       int pkuMask =     0b00000000000000000000000000001000;
       int ospkuMask =   0b00000000000000000000000000010000;
 
-      if((extendedFeaturesECXRegister & pkuMask) == 0b1000){
-          puts("pku feature exists");
-      }
-      else{
-          puts("pku feature does not exist");
-      }
-
-      if((extendedFeaturesECXRegister & ospkuMask) == 0b10000){
-          puts("pku feature is enabled");
-      }
-      else{
-          puts("pku feature is not enabled");
-      }
-
+      int pku_exists = (extendedFeaturesECXRegister & pkuMask) == 0b1000;
+      int is_pku_enabled = (extendedFeaturesECXRegister & ospkuMask) == 0b10000;
+      printf("pku feature exist:%d, is enabled: %d\n", pku_exists, is_pku_enabled);
       sleep(1);
     }
 

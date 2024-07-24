@@ -19,22 +19,20 @@ extern unsigned int testCPUID(void);
 int
 main(void)
 {
-  puts("Starting read Write Cycle of PKRU");
   unsigned int extendedFeaturesECXRegister = testCPUID();
   unsigned int ospkuMask =   0b00000000000000000000000000010000;
   unsigned int noWriteOnThese = 0b11;
-  unsigned int currentWrite = 0;
+  
   if(extendedFeaturesECXRegister & ospkuMask)
   {
-    for (;;)
+    for (unsigned int currentWrite = 0; currentWrite < 40; currentWrite += 4)
     {
-      currentWrite++;
+      
       unsigned int resultFirst = readPKRU();
-      printf("Read PKRU %u\n", resultFirst);
 
       writePKRU(currentWrite & ~noWriteOnThese);
 
-      printf("Wrote into pkru\n------------------------\n");
+      printf("Read PKRU %u and Wrote newValue %u\n", resultFirst, currentWrite);
       
       sleep(1);
     }
