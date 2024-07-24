@@ -107,12 +107,18 @@ static int memoryAllocationLoop(unsigned int key_to_associate)
 
   printf("Allocated memory.\n");
 
-  printf("Address copied inside of user %p\n", virt);
-  set_pku(virt, key_to_associate);
-  /* Do something with the memory */
-  memset(virt, 0x12, 4 * L4_PAGESIZE);
-
+  printf("Start Address in user %p\n", virt);
+  
+  memset(virt, 0x12, 4 * L4_PAGESIZE); // TODO LAZY PAGE ALLOCATION RUINS EVERYTHING.
   printf("Touched memory.\n");
+  
+  set_pku(virt, key_to_associate);
+  printf("Set PKU to %u.\n", key_to_associate);  
+
+  /* Do something with the memory */
+  memset(virt, 0x14, 4 * L4_PAGESIZE);
+  printf("Touched memory.\n");
+
 
   /* Free memory */
   if (free_mem(virt))
@@ -126,8 +132,8 @@ static int memoryAllocationLoop(unsigned int key_to_associate)
 int main(void)
 {
   memoryAllocationLoop(0);
-  unsigned int pkruvalue = 0b11;
-  writePKRU(~pkruvalue); //lock all keys except 0
+  unsigned int pkruvalue = 0b110011;
+  writePKRU(~pkruvalue); //lock all keys except 0 and 2
 
 
   puts("-----------------");
@@ -146,7 +152,7 @@ int main(void)
   puts("key 2 allocation done");
   puts("-----------------");
 
-  memoryAllocationLoop(1);
+  memoryAllocationLoop(1); // should crash
 
   puts("-----------------");
   puts("key 1 allocation done");
