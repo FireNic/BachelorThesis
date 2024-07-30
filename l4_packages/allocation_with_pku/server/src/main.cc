@@ -106,24 +106,16 @@ static int memoryAllocationLoop(unsigned int key_to_associate)
   if (allocate_mem(4 * L4_PAGESIZE, 0, &virt))
     return 1;
 
-  // printf("Allocated memory.\n");
-  
   memset(virt, 0x12, 4 * L4_PAGESIZE); // TODO LAZY PAGE ALLOCATION RUINS EVERYTHING.
-  // printf("Touched memory.\n");
   
   set_pku(virt, key_to_associate);
-  // printf("Set PKU to %u.\n", key_to_associate);  
+  set_pku(virt, key_to_associate);
 
-  /* Do something with the memory */
   memset(virt, 0x14, 4 * L4_PAGESIZE);
-  // printf("Touched memory.\n");
 
 
-  /* Free memory */
   if (free_mem(virt))
     return 2;
-
-  // printf("Freed and done. Bye. For now!\n");
 
   return 0;
 }
@@ -148,6 +140,10 @@ int main(void)
 
 
   memoryAllocationLoop(1); // should crash
-  puts("key 1 allocation done");
+  puts("key 1 allocation done but should've crashed");
+  sleep(1);
+
+  memoryAllocationLoop(13);
+  puts("key 13 allocation done but should've crashed");
   sleep(1);
 }
