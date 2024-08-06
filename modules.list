@@ -24,4 +24,4 @@ module simple_multi_program.cfg
 module allocation_and_pkru
 module myownhello
 module readwritepkru
-module TestOneTiming
+module TestTemplate
