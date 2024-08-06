@@ -17,6 +17,11 @@ extern unsigned int testCPUID(void);
 int
 main(void)
 {
+  puts("Creating NullptrException");
+  int *intptr = NULL;
+  (*intptr)++;
+  puts("Whoops");
+
   for (int i = 0; i < 5; i++)
     {
       unsigned int extendedFeaturesECXRegister = testCPUID();
