@@ -1,4 +1,4 @@
-#include "pkrulib.h"
+#include "../../include/pkrulib.h"
 
 extern "C" unsigned int pkru_lib_read_PKRU(void);
 extern "C" void pkru_lib_write_PKRU(unsigned int pkruValue);
