@@ -16,6 +16,7 @@ module allocation_and_pkru.cfg
 module allocation_and_pkru
 
 entry simple_multi_test
+kernel fiasco -serial_esc
 roottask moe rom/simple_multi_program.cfg
 module l4re
 module ned
