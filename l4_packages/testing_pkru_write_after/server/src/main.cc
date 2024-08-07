@@ -15,10 +15,11 @@ void PKRUWriteAndWriteAfter(MPKTimer *timer, int amount_of_results, unsigned int
 
 int main(void)
 {
-  printf("Testing PKRU Write After Loop says Hello\n");
+  printf("Testing PKRU Write After says Hello\n");
   
   unsigned int protected_with_key = 1;
   unsigned int *touching_this_memory = static_cast<unsigned int*>(malloc(sizeof(*touching_this_memory)));
+  *touching_this_memory = 42;
   fiasco_pku_set(L4Re::Env::env()->task().cap(), protected_with_key, touching_this_memory, l4_utcb());
 
   // Calling Setup of Timer
