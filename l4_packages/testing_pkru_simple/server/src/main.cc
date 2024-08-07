@@ -22,9 +22,9 @@ int main(void)
   SimplePKRUWrite(&timer, amount_of_results);  
 
   // Results
-  auto results = timer.ResultsForExport(',', ';');
+  std::vector<char> results = timer.ResultsForExport(',', ';');
   puts("Results of Simple Testing PKRU are:");
-  puts(results);
+  puts(&results[0]);
 
   return 0;
 }
