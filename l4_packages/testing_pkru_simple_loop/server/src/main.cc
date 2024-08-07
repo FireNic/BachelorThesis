@@ -10,10 +10,10 @@ void SimplePKRUWrite(MPKTimer *timer, int amount_of_results, int inner_loop_coun
 
 int main(void)
 {
-  printf("Simple Testing PKRU says Hello\n");
+  printf("Simple Testing PKRU Loop says Hello\n");
 
   // Calling Setup of Timer
-  const int amount_of_results = 100;
+  const int amount_of_results = 1000;
   const int amount_of_inner_loops = 1000;
   MPKTimer timer = MPKTimer(amount_of_results);
 
@@ -24,7 +24,7 @@ int main(void)
 
   // Results
   std::vector<char> results = timer.ResultsForExport(',', ';');
-  puts("Results of Simple Testing PKRU are:");
+  puts("Results of Simple Testing PKRU Loop are:");
   puts(&results[0]);
 
   return 0;

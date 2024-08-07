@@ -25,3 +25,15 @@ module allocation_and_pkru
 module myownhello
 module readwritepkru
 module TestTemplate
+
+entry performance_tests
+kernel fiasco -serial_esc
+roottask moe rom/performance_tests.cfg
+module l4re
+module ned
+module performance_tests.cfg
+module TestTemplate
+module testpkrusimple
+module testpkrusimpleloop
+module testpkruwriteafter
+module testpkruwriteafterloop

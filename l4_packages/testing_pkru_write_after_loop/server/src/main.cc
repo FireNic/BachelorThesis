@@ -15,7 +15,7 @@ void PKRUWriteAndWriteAfter(MPKTimer *timer, int amount_of_results, int inner_lo
 
 int main(void)
 {
-  printf("Simple Testing PKRU says Hello\n");
+  printf("Testing PKRU Write After Loop says Hello\n");
   
   unsigned int protected_with_key = 1;
   unsigned int *touching_this_memory = static_cast<unsigned int*>(malloc(sizeof(*touching_this_memory)));
