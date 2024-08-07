@@ -37,3 +37,9 @@ module testpkrusimple
 module testpkrusimpleloop
 module testpkruwriteafter
 module testpkruwriteafterloop
+module testpkruwritebefore
+module testsyssimple
+module testsyssimpleloop
+module testsyswriteafter
+module testsyswriteafterloop
+module testsyswritebefore
