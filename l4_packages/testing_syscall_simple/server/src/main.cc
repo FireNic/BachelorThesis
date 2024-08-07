@@ -11,14 +11,14 @@
 #include <stdio.h>
 
 
-void SimpleSyscallWrite(MPKTimer *timer, int amount_of_results, unsigned int *to_touch);
+void SimpleSyscall(MPKTimer *timer, int amount_of_results, unsigned int *to_touch);
 
 int main(void)
 {
   printf("Simple Testing Syscall says Hello\n");
 
   const int amount_of_results = 1000;
-  
+
   unsigned int *touching_this_memory = static_cast<unsigned int*>(malloc(sizeof(*touching_this_memory)));
   *touching_this_memory = 20;
   PKRUlib::write(~0b11); // disable everything except key 0
@@ -27,9 +27,9 @@ int main(void)
   MPKTimer timer = MPKTimer(amount_of_results);
 
   // Warmup
-  SimpleSyscallWrite(&timer, amount_of_results, touching_this_memory);
+  SimpleSyscall(&timer, amount_of_results, touching_this_memory);
   // Testing
-  SimpleSyscallWrite(&timer, amount_of_results, touching_this_memory);  
+  SimpleSyscall(&timer, amount_of_results, touching_this_memory);  
 
   // Results
   std::vector<char> results = timer.ResultsForExport(',', ';');
@@ -41,7 +41,7 @@ int main(void)
 
 
 
-void SimpleSyscallWrite(MPKTimer *timer, int amount_of_results, unsigned int *to_touch)
+void SimpleSyscall(MPKTimer *timer, int amount_of_results, unsigned int *to_touch)
 {
   auto utcb = l4_utcb();
   auto cap = L4Re::Env::env()->task().cap();
