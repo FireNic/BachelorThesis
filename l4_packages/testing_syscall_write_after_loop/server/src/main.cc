@@ -35,7 +35,7 @@ int main(void)
 
   // Results
   std::vector<char> results = timer.ResultsForExport(',', ';');
-  puts("Results of Simple Testing Syscall Write Loop are:");
+  printf("Results of Simple Testing Syscall Write Loop (count per time = %d) are:\n", inner_loop_count);
   puts(&results[0]);
 
   return 0;

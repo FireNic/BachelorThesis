@@ -24,7 +24,7 @@ int main(void)
 
   // Results
   std::vector<char> results = timer.ResultsForExport(',', ';');
-  puts("Results of Simple Testing PKRU Loop are:");
+  printf("Results of Simple Testing PKRU Loop (count per time = %d) are:\n", amount_of_inner_loops);
   puts(&results[0]);
 
   return 0;

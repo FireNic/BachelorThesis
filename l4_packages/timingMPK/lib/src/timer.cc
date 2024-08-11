@@ -37,18 +37,20 @@ std::vector<char> MPKTimer::ResultsForExport(char seperator_values, char seperat
     
     unsigned int current_write_index = 0;
     {
-        int written_characters = sprintf(&returnValue[0], "durationTSC%ccoreCyclesNotHalted%creferenceCyclesNotHalted%c", seperator_values, seperator_values, seperator_lines);
+        int written_characters = sprintf(&returnValue[0], "--RegexStartCSVMarker--durationTSC%ccoreCyclesNotHalted%creferenceCyclesNotHalted%c", seperator_values, seperator_values, seperator_lines);
         current_write_index += written_characters;
     }
     for (DurationMPK &element : Results)
     {
-        int written_characters = snprintf(&returnValue[current_write_index], max_length - current_write_index, 
+        int written_characters = snprintf(&returnValue[current_write_index], 
+        max_length - current_write_index, 
         "%llu%c%llu%c%llu%c", 
         element.duration, seperator_values, 
         element.core_cycles_not_halted, seperator_values, 
         element.reference_cycles_not_halted, seperator_lines);
         current_write_index += written_characters;
     }
+    snprintf(&returnValue[current_write_index], max_length - current_write_index, "--RegexEndCSVMarker--");
 
     return returnValue;
 }
