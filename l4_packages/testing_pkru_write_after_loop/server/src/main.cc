@@ -1,8 +1,10 @@
 
 // #include <../../../mpklibrary/include/pkrulib.h> // for development
 // #include <../../../timingMPK/include/timer.h>
+// #include <../../../timingMPK/include/protectablepage.h>
 #include <l4/mpklibrary/pkrulib.h>
 #include <l4/timingMPK/timer.h>
+#include <l4/timingMPK/protectablepage.h>
 
 #include <l4/re/env>
 #include <l4/sys/segment.h>
@@ -18,8 +20,8 @@ int main(void)
   printf("Testing PKRU Write After Loop says Hello\n");
   
   unsigned int protected_with_key = 1;
-  unsigned int *touching_this_memory = static_cast<unsigned int*>(malloc(sizeof(*touching_this_memory)));
-  *touching_this_memory = 42;
+  PageAllocator PageAllocator;
+  unsigned int *touching_this_memory = static_cast<unsigned int *>(PageAllocator.GetProtectablePage());
   fiasco_pku_set(L4Re::Env::env()->task().cap(), protected_with_key, touching_this_memory, l4_utcb());
 
   // Calling Setup of Timer

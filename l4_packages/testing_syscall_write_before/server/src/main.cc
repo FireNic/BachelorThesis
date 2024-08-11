@@ -1,8 +1,10 @@
 
 // #include <../../../mpklibrary/include/pkrulib.h> // for development
 // #include <../../../timingMPK/include/timer.h>
+// #include <../../../timingMPK/include/protectablepage.h>
 #include <l4/mpklibrary/pkrulib.h>
 #include <l4/timingMPK/timer.h>
+#include <l4/timingMPK/protectablepage.h>
 
 #include <l4/re/env>
 #include <l4/sys/segment.h>
@@ -18,8 +20,8 @@ int main(void)
   printf("Simple Testing Syscall Write Before says Hello\n");
   
   const int amount_of_results = 1000;
-  unsigned int *touching_this_memory = static_cast<unsigned int*>(malloc(sizeof(*touching_this_memory)));
-  *touching_this_memory = 20;
+  PageAllocator PageAllocator;
+  unsigned int *touching_this_memory = static_cast<unsigned int *>(PageAllocator.GetProtectablePage());
   PKRUlib::write(~0b11); // disable everything except key 0
 
   // Calling Setup of Timer
