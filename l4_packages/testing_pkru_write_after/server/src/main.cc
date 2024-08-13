@@ -12,26 +12,28 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
 void PKRUWriteAndWriteAfter(MPKTimer *timer, int amount_of_results, unsigned int protected_with_key, unsigned int *protected_memory);
 
 int main(void)
 {
   printf("Testing PKRU Write After says Hello\n");
-  
+
   unsigned int protected_with_key = 1;
   PageAllocator PageAllocator;
   unsigned int *touching_this_memory = static_cast<unsigned int *>(PageAllocator.GetProtectablePage());
   fiasco_pku_set(L4Re::Env::env()->task().cap(), protected_with_key, touching_this_memory, l4_utcb());
 
   // Calling Setup of Timer
-  const int amount_of_results = 1000;
+  const int amount_of_results = 10000;
   MPKTimer timer = MPKTimer(amount_of_results);
 
   // Warmup
-  PKRUWriteAndWriteAfter(&timer, amount_of_results, protected_with_key, touching_this_memory);
+  for (int i = 0; i < 1000; i++)
+  {
+    PKRUWriteAndWriteAfter(&timer, amount_of_results, protected_with_key, touching_this_memory);
+  }
   // Testing
-  PKRUWriteAndWriteAfter(&timer, amount_of_results, protected_with_key, touching_this_memory);  
+  PKRUWriteAndWriteAfter(&timer, amount_of_results, protected_with_key, touching_this_memory);
 
   // Results
   std::vector<char> results = timer.ResultsForExport(',', ';');
@@ -41,8 +43,6 @@ int main(void)
   free(touching_this_memory);
   return 0;
 }
-
-
 
 void PKRUWriteAndWriteAfter(MPKTimer *timer, int amount_of_results, unsigned int protected_with_key, unsigned int *protected_memory)
 {

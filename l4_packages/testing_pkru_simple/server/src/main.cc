@@ -5,7 +5,6 @@
 #include <l4/timingMPK/timer.h>
 #include <stdio.h>
 
-
 void SimplePKRUWrite(MPKTimer *timer, int amount_of_results);
 
 int main(void)
@@ -13,13 +12,16 @@ int main(void)
   printf("Simple Testing PKRU says Hello\n");
 
   // Calling Setup of Timer
-  const int amount_of_results = 1000;
+  const int amount_of_results = 10000;
   MPKTimer timer = MPKTimer(amount_of_results);
 
   // Warmup
-  SimplePKRUWrite(&timer, amount_of_results);
+  for (int i = 0; i < 1000; i++)
+  {
+    SimplePKRUWrite(&timer, amount_of_results);
+  }
   // Testing
-  SimplePKRUWrite(&timer, amount_of_results);  
+  SimplePKRUWrite(&timer, amount_of_results);
 
   // Results
   std::vector<char> results = timer.ResultsForExport(',', ';');
@@ -28,8 +30,6 @@ int main(void)
 
   return 0;
 }
-
-
 
 void SimplePKRUWrite(MPKTimer *timer, int amount_of_results)
 {

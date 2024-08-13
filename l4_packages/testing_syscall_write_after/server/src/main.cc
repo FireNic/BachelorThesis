@@ -12,14 +12,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
 void SimpleSyscallWrite(MPKTimer *timer, int amount_of_results, unsigned int *to_touch);
 
 int main(void)
 {
   printf("Simple Testing Syscall Write says Hello\n");
-  
-  const int amount_of_results = 1000;
+
+  const int amount_of_results = 10000;
   PageAllocator PageAllocator;
   unsigned int *touching_this_memory = static_cast<unsigned int *>(PageAllocator.GetProtectablePage());
   PKRUlib::write(~0b11); // disable everything except key 0
@@ -28,9 +27,12 @@ int main(void)
   MPKTimer timer = MPKTimer(amount_of_results);
 
   // Warmup
-  SimpleSyscallWrite(&timer, amount_of_results, touching_this_memory);
+  for (int i = 0; i < 1000; i++)
+  {
+    SimpleSyscallWrite(&timer, amount_of_results, touching_this_memory);
+  }
   // Testing
-  SimpleSyscallWrite(&timer, amount_of_results, touching_this_memory);  
+  SimpleSyscallWrite(&timer, amount_of_results, touching_this_memory);
 
   // Results
   std::vector<char> results = timer.ResultsForExport(',', ';');
@@ -39,8 +41,6 @@ int main(void)
 
   return 0;
 }
-
-
 
 void SimpleSyscallWrite(MPKTimer *timer, int amount_of_results, unsigned int *to_touch)
 {

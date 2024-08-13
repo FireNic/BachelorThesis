@@ -5,7 +5,6 @@
 #include <l4/timingMPK/timer.h>
 #include <stdio.h>
 
-
 void SimplePKRUWrite(MPKTimer *timer, int amount_of_results, int inner_loop_count);
 
 int main(void)
@@ -14,13 +13,16 @@ int main(void)
 
   // Calling Setup of Timer
   const int amount_of_results = 1000;
-  const int amount_of_inner_loops = 1000;
+  const int amount_of_inner_loops = 10000;
   MPKTimer timer = MPKTimer(amount_of_results);
 
   // Warmup
-  SimplePKRUWrite(&timer, amount_of_results, amount_of_inner_loops);
+  for (int i = 0; i < 100; i++)
+  {
+    SimplePKRUWrite(&timer, amount_of_results, amount_of_inner_loops);
+  }
   // Testing
-  SimplePKRUWrite(&timer, amount_of_results, amount_of_inner_loops);  
+  SimplePKRUWrite(&timer, amount_of_results, amount_of_inner_loops);
 
   // Results
   std::vector<char> results = timer.ResultsForExport(',', ';');
@@ -29,8 +31,6 @@ int main(void)
 
   return 0;
 }
-
-
 
 void SimplePKRUWrite(MPKTimer *timer, int amount_of_results, int inner_loop_count)
 {
@@ -41,7 +41,7 @@ void SimplePKRUWrite(MPKTimer *timer, int amount_of_results, int inner_loop_coun
     timer->Start();
     {
       // Single Testing (Either One Instruction or a Loop)
-      for(int j = 0; j < inner_loop_count; j++)
+      for (int j = 0; j < inner_loop_count; j++)
       {
         current_val += 4; // never associate key 0
         PKRUlib::write(current_val);
