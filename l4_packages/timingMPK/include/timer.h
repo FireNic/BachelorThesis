@@ -6,8 +6,8 @@ public:
     typedef unsigned long long DurationTSC;
     struct DurationMPK{
         DurationTSC duration;
-        unsigned long long core_cycles_not_halted;
-        unsigned long long reference_cycles_not_halted;
+        // unsigned long long core_cycles_not_halted;
+        // unsigned long long reference_cycles_not_halted;
     };
 
     MPKTimer(unsigned int amount_results) {
