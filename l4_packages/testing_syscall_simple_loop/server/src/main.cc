@@ -18,8 +18,8 @@ int main(void)
 {
   printf("Simple Testing Syscall Loop says Hello\n");
 
-  const int amount_of_results = 1000;
-  const int inner_loop_count = 10000;
+  const int amount_of_results = 10000;
+  const int inner_loop_count = 1000;
 
   PageAllocator PageAllocator;
   unsigned int *touching_this_memory = static_cast<unsigned int *>(PageAllocator.GetProtectablePage());
@@ -29,7 +29,7 @@ int main(void)
   MPKTimer timer = MPKTimer(amount_of_results);
 
   // Warmup
-  for (int i = 0; i < 100; i++)
+  for (int i = 0; i < 10; i++)
   {
     SimpleSyscallLoop(&timer, amount_of_results, inner_loop_count, touching_this_memory);
   }

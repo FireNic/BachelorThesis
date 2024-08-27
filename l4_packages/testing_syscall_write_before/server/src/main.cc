@@ -49,10 +49,11 @@ void SimpleSyscallWrite(MPKTimer *timer, int amount_of_results, unsigned int *to
 
   for (int i = 0; i < amount_of_results; i++)
   {
-    fiasco_pku_set(cap, 0, to_touch, utcb);
+    fiasco_pku_set(cap, 0, to_touch, utcb);    
+    *to_touch += i;
     timer->Start();
     {
-      *to_touch = i;
+      *to_touch = i * 2513 / (i + 523);
       fiasco_pku_set(cap, i % 16, to_touch, utcb);
     }
     timer->Stop(i);

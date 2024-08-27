@@ -24,12 +24,12 @@ int main(void)
   fiasco_pku_set(L4Re::Env::env()->task().cap(), protected_with_key, touching_this_memory, l4_utcb());
 
   // Calling Setup of Timer
-  const int amount_of_results = 1000;
+  const int amount_of_results = 10000;
   const int amount_of_inner_loops = 10000;
   MPKTimer timer = MPKTimer(amount_of_results);
 
   // Warmup
-  for (int i = 0; i < 100; i++)
+  for (int i = 0; i < 10; i++)
   {
     PKRUWriteAndWriteAfter(&timer, amount_of_results, amount_of_inner_loops, protected_with_key, touching_this_memory);
   }
@@ -58,7 +58,7 @@ void PKRUWriteAndWriteAfter(MPKTimer *timer, int amount_of_results, int inner_lo
       for (int j = 0; j < inner_loop_count; j++)
       {
         PKRUlib::write(0);
-        *protected_memory = j;
+        *protected_memory = j * 2513 / (j + 523);
         PKRUlib::write(disable_key);
       }
       // End Of Single Test

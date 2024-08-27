@@ -54,7 +54,7 @@ void PKRUWriteAndWriteAfter(MPKTimer *timer, int amount_of_results, unsigned int
     timer->Start();
     {
       PKRUlib::write(0);
-      *protected_memory = i;
+      *protected_memory = i * 2513 / (i + 523);
     }
     timer->Stop(i);
     PKRUlib::write(disable_key);

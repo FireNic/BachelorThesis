@@ -12,15 +12,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void SimpleSyscallWriteLoop(MPKTimer *timer, int amount_of_results, int inner_loop_count, unsigned int *to_touch);
+void SimpleSyscallWrite(MPKTimer *timer, int amount_of_results, unsigned int *to_touch);
 
 int main(void)
 {
-  printf("Simple Testing Syscall Write Loop says Hello\n");
+  printf("Simple Testing Syscall Write says Hello\n");
 
   const int amount_of_results = 10000;
-  const int inner_loop_count = 1000;
-
   PageAllocator PageAllocator;
   unsigned int *touching_this_memory = static_cast<unsigned int *>(PageAllocator.GetProtectablePage());
   PKRUlib::write(~0b11); // disable everything except key 0
@@ -29,36 +27,34 @@ int main(void)
   MPKTimer timer = MPKTimer(amount_of_results);
 
   // Warmup
-  for (int i = 0; i < 10; i++)
+  for (int i = 0; i < 1000; i++)
   {
-    SimpleSyscallWriteLoop(&timer, amount_of_results, inner_loop_count, touching_this_memory);
+    SimpleSyscallWrite(&timer, amount_of_results, touching_this_memory);
   }
   // Testing
-  SimpleSyscallWriteLoop(&timer, amount_of_results, inner_loop_count, touching_this_memory);
+  SimpleSyscallWrite(&timer, amount_of_results, touching_this_memory);
 
   // Results
   std::vector<char> results = timer.ResultsForExport(',', ';');
-  printf("Results of Simple Testing Syscall Write Loop (count per time = %d) are:\n", inner_loop_count);
+  puts("Results of Simple Testing Syscall Write are:");
   puts(&results[0]);
 
   return 0;
 }
 
-void SimpleSyscallWriteLoop(MPKTimer *timer, int amount_of_results, int inner_loop_count, unsigned int *to_touch)
+void SimpleSyscallWrite(MPKTimer *timer, int amount_of_results, unsigned int *to_touch)
 {
   auto utcb = l4_utcb();
   auto cap = L4Re::Env::env()->task().cap();
+  fiasco_pku_set(cap, 2, to_touch, utcb);
 
   for (int i = 0; i < amount_of_results; i++)
   {
     timer->Start();
     {
-      for (int j = 0; j < inner_loop_count; j++)
-      {
-        fiasco_pku_set(cap, 0, to_touch, utcb);
-        *to_touch = j * 2513 / (j + 523);
-        fiasco_pku_set(cap, j % 16, to_touch, utcb);
-      }
+      fiasco_pku_set(cap, 0, to_touch, utcb);
+      *to_touch = i * 2513 / (i + 523);
+      fiasco_pku_set(cap, i % 16, to_touch, utcb);
     }
     timer->Stop(i);
   }

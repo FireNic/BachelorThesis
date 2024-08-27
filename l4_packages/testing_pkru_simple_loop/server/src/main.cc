@@ -12,12 +12,12 @@ int main(void)
   printf("Simple Testing PKRU Loop says Hello\n");
 
   // Calling Setup of Timer
-  const int amount_of_results = 1000;
+  const int amount_of_results = 10000;
   const int amount_of_inner_loops = 10000;
   MPKTimer timer = MPKTimer(amount_of_results);
 
   // Warmup
-  for (int i = 0; i < 100; i++)
+  for (int i = 0; i < 10; i++)
   {
     SimplePKRUWrite(&timer, amount_of_results, amount_of_inner_loops);
   }
