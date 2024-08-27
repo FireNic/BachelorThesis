@@ -38,3 +38,62 @@ bool PKRUlib::has_rights(Key key, Rights rights)
     else
         return only_key_rights & desired_key_rights;
 }
+
+PKRUlib::RightsResult PKRUlib::rights(Key key)
+{
+    unsigned int current_pkru = PKRUlib::read();
+    unsigned int only_key_rights = current_pkru & key;
+
+    switch (key)
+    {
+    case Key_0:
+        /* no change */
+        break;
+    case Key_1:
+        only_key_rights = only_key_rights >> 2;
+        break;
+    case Key_2:
+        only_key_rights = only_key_rights >> 4;
+        break;
+    case Key_3:
+        only_key_rights = only_key_rights >> 6;
+        break;
+    case Key_4:
+        only_key_rights = only_key_rights >> 8;
+        break;
+    case Key_5:
+        only_key_rights = only_key_rights >> 10;
+        break;
+    case Key_6:
+        only_key_rights = only_key_rights >> 12;
+        break;
+    case Key_7:
+        only_key_rights = only_key_rights >> 14;
+        break;
+    case Key_8:
+        only_key_rights = only_key_rights >> 16;
+        break;
+    case Key_9:
+        only_key_rights = only_key_rights >> 18;
+        break;
+    case Key_10:
+        only_key_rights = only_key_rights >> 20;
+        break;
+    case Key_11:
+        only_key_rights = only_key_rights >> 22;
+        break;
+    case Key_12:
+        only_key_rights = only_key_rights >> 24;
+        break;
+    case Key_13:
+        only_key_rights = only_key_rights >> 26;
+        break;
+    case Key_14:
+        only_key_rights = only_key_rights >> 28;
+        break;
+    case Key_15:
+        only_key_rights = only_key_rights >> 30;
+        break;
+    }
+    return static_cast<RightsResult>(only_key_rights);
+}
