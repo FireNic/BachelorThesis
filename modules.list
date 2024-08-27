@@ -27,7 +27,6 @@ module readwritepkru
 module TestTemplate
 
 entry performance_tests
-kernel fiasco -serial_esc
 roottask moe rom/performance_tests.cfg
 module l4re
 module ned
@@ -38,8 +37,11 @@ module testpkrusimpleloop
 module testpkruwriteafter
 module testpkruwriteafterloop
 module testpkruwritebefore
+module testpkruwritebetween
 module testsyssimple
 module testsyssimpleloop
 module testsyswriteafter
 module testsyswriteafterloop
 module testsyswritebefore
+module testsyswritebetween
+module testsyswritebeforetlbmiss
